@@ -11,8 +11,6 @@ const router = createRouter({
         { path: '/login', component: Login }, //domain.com/login. As for the component we tell vue that this is the components page we want to load on this route.
         { path: '/signup', component: Signup },
         { path: '/:notFound(.*)', component: NotFound }
-
-
     ]
 })
 
