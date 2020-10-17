@@ -1,8 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-import Login from './pages/LoginPage.vue'
+import Login from './pages/auth/LoginPage.vue'
 import NotFound from './pages/NotFoundPage.vue'
-import Signup from './pages/SignupPage.vue'
+import Signup from './pages/auth/SignupPage.vue'
 
 const router = createRouter({
     history: createWebHistory(),
