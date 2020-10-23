@@ -4,9 +4,10 @@
             <div class="form">
                 <!-- @submit.prevent is onClick event listener. Then .prevent prevents page reload. -->
                 <form  @submit.prevent="submitForm">
-                    <!-- v-model works as a two way information path. userEmail data goes in and we can return a empty string back into it. Reference data & methods -->
-                    <input type="text" placeholder="email address" v-model="userEmail"/>
-                    <input type="password" placeholder="password" v-model="userPassword"/>
+                    <!-- v-model works as a two way information path. email data goes in and we can return a empty string back into it. Reference data & methods -->
+                    <input type="text" placeholder="email address" v-model.trim="email"/>
+                    <input type="password" placeholder="password" v-model.trim="password"/>
+                    <p v-if="!formIsValid"> Please enter a valid Email and Password</p>
                     <button>signup</button>
                     <!-- TODO LINK THIS TO SIGNUP VIA VUE WAY -->
                     <p class="message">Forgot password? <a href="#">New Password</a></p>
@@ -21,18 +22,35 @@
 export default {
     data() {
         return {
-            userEmail: '',
-            userPassword: ''
+            email: '',
+            password: '',
+            formIsValid: true,
+            error: null
         }
     },
     methods: {
-        submitForm() {
-            console.log("Email: " + this.userEmail)
-            this.userEmail = ""
-            console.log("Password: " + this.userPassword)
-            this.userPassword = ""
+        async submitForm() {
+            this.formIsValid = true
+            if (
+                this.email === '' ||
+                !this.email.includes('@') ||
+                this.password.length < 6
+            ) {
+                this.formIsValid = false
+                return;
+            }
+            
+            try {
+                await this.$store.dispatch('signup', {
+                email: this.email,
+                password: this.password,
+            })
+        }catch(err) {
+            this.error = err.message || "Failed to authetnicate"
         }
-    }
+
+        }
+    },
 }
 </script>
 
